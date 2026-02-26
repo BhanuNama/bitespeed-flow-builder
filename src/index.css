@@ -1,0 +1,42 @@
+@import "tailwindcss";
+
+/* Override Tailwind v4's built-in --font-sans variable so the font-sans
+   utility class also uses Sofia Sans, which is applied in App.jsx root div */
+@theme {
+  --font-sans: 'Sofia Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Sofia Sans', sans-serif;
+    background-color: #f8fafc;
+    /* slate-50 */
+    color: #0f172a;
+    /* slate-900 */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+/* Selected edges — brighter stroke + glow */
+.react-flow__edge.selected .react-flow__edge-path,
+.react-flow__edge:focus .react-flow__edge-path,
+.react-flow__edge:focus-visible .react-flow__edge-path {
+  stroke: #f59e0b !important;
+  /* amber-400 — contrasts well with teal */
+  stroke-width: 3 !important;
+  filter: drop-shadow(0 0 4px rgba(245, 158, 11, 0.5));
+}
+
+/* Keep unselected node outline off — selection ring is on the custom node div */
+.react-flow__node.selected {
+  outline: none;
+}
+
+.react-flow__handle-connecting {
+  background-color: #0d9488;
+  /* teal-600 */
+  border-color: #0d9488;
+}

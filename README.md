@@ -1,16 +1,112 @@
-# React + Vite
+# BiteSpeed Chatbot Flow Builder
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A visual, drag-and-drop chatbot flow builder built with **React**, **React Flow**, **Zustand**, and **Tailwind CSS**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## ✨ Features
 
-## React Compiler
+- **Drag & Drop Nodes** — Add message nodes from the left panel onto the canvas
+- **Connect Nodes** — Draw edges between nodes to define the message sequence
+- **Source Handle** — Each node has exactly **one outgoing** edge from its source handle
+- **Target Handle** — Each node can receive **multiple incoming** edges on its target handle
+- **Settings Panel** — Click any node to open an inline editor that replaces the Nodes Panel; edits reflect on the canvas in real time
+- **Save & Validate** — Validates that no more than one node has an empty target handle (when 2+ nodes exist); saves flow to `localStorage`
+- **Persistent Flow** — Flow is auto-loaded from `localStorage` on page refresh
+- **Premium UI** — Sofia Sans font, teal animated edges, amber selection highlight, empty canvas hint, live character count
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+- Node.js ≥ 18
+- npm ≥ 9
+
+### Installation
+
+```bash
+# Clone the repo
+git clone https://github.com/BhanuNama/bitespeed-flow-builder.git
+cd bitespeed-flow-builder
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173) in your browser.
+
+### Build for Production
+
+```bash
+npm run build
+npm run preview
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+src/
+├── components/
+│   ├── Canvas.jsx          # React Flow canvas with drag-and-drop
+│   ├── TextNode.jsx        # Custom text message node
+│   ├── NodesPanel.jsx      # Left panel with draggable node types
+│   ├── SettingsPanel.jsx   # Inline editor (replaces NodesPanel on selection)
+│   ├── TopBar.jsx          # Header with Save button
+│   ├── StatusBar.jsx       # Footer with node/edge count
+│   └── Toast.jsx           # Success/error notifications
+├── hooks/
+│   └── useFlowStore.js     # Zustand global state (nodes, edges, selection)
+├── utils/
+│   ├── validation.js       # Save flow validation logic
+│   └── idGenerator.js      # Unique node ID generation
+├── index.css               # Tailwind v4 + global styles
+└── App.jsx                 # Root layout
+```
+
+---
+
+## 🧠 How It Works
+
+| Concept | Implementation |
+|---|---|
+| State management | Zustand (`useFlowStore`) |
+| Node rendering | Custom `TextNode` registered in `nodeTypes` |
+| Adding nodes | `onDragStart` in NodesPanel → `onDrop` in Canvas |
+| Source handle limit | `onConnect` filters existing edge from same source before adding new one |
+| Validation | `validateFlow()` — counts nodes with empty target handles |
+| Persistence | `localStorage.setItem/getItem` on save/load |
+
+---
+
+## 🛠️ Tech Stack
+
+| Library | Purpose |
+|---|---|
+| [React 19](https://react.dev) | UI framework |
+| [React Flow 11](https://reactflow.dev) | Flow diagram engine |
+| [Zustand 5](https://zustand-demo.pmnd.rs) | State management |
+| [Tailwind CSS 4](https://tailwindcss.com) | Styling |
+| [Lucide React](https://lucide.dev) | Icons |
+| [Vite 7](https://vitejs.dev) | Build tool |
+
+---
+
+## 📋 Validation Rules
+
+> **Save** will **fail** if:
+> - There are **2 or more nodes**, AND
+> - **More than one node** has no incoming (target) edge
+
+This ensures your chatbot flow has a single clear entry point.
+
+---
+
+## 📄 License
+
+MIT
